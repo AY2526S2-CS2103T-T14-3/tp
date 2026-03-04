@@ -9,15 +9,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Tom Qiao
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/tomqiao0116.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](https://github.com/TomQiao0116)]
+[[portfolio](team/tomqiao0116.md)]
 
-* Role: Project Advisor
+* Role: Developer
+* Responsibilities: Documentation, Git workflow
 
 ### Jane Doe
 
