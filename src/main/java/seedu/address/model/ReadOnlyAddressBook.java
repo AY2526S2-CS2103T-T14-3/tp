@@ -1,7 +1,6 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.interview.Interview;
 import seedu.address.model.interview.InterviewDatabase;
 import seedu.address.model.person.Person;
 
