@@ -142,6 +142,36 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Opening an applicant's interview notes : `open`
+
+Opens the interview notes of the specified applicant and displays them in the result panel.
+
+Format: `open INDEX`
+
+* Opens the interview notes of the applicant at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* If the applicant has no interview notes yet, an empty note is shown.
+* Calling `open` while another applicant's notes are already open silently switches to the new applicant.
+
+Examples:
+* `open 1` opens the interview notes of the 1st applicant in the displayed list.
+* `find John` followed by `open 1` opens the interview notes of the 1st result in the `find` output.
+
+### Saving an applicant's interview notes : `close`
+
+Saves the provided text as the interview notes for the currently open applicant, then closes the interview session.
+
+Format: `close [i/NOTES]`
+
+* Must be used after an `open` command. Using `close` without a prior `open` will result in an error.
+* `i/NOTES` is the new interview notes content. Everything after `i/` is saved as the notes, including spaces and line breaks.
+* Interview notes may be up to **4000 characters** long.
+* Omitting `i/` (i.e. typing `close` with no prefix) clears the applicant's interview notes.
+
+Examples:
+* `close i/Candidate showed strong problem-solving skills. Score: 4/5.` saves that text as the interview notes for the currently open applicant.
+* `close` clears the interview notes for the currently open applicant.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -189,6 +219,8 @@ _Details coming soon ..._
 
 ## Command summary
 
+### General commands
+
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
@@ -198,3 +230,10 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Help** | `help`
+
+### Interview commands
+
+Action | Format, Examples
+--------|------------------
+**Open** | `open INDEX`<br> e.g., `open 2`
+**Close** | `close [i/NOTES]`<br> e.g., `close i/Strong candidate. Score: 4/5.`
