@@ -142,35 +142,73 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Opening an applicant's interview notes : `open`
+### Adding an interview record : `addInterviewRecord`
 
-Opens the interview notes of the specified applicant and displays them in the result panel.
+Adds an interview record to the address book.
 
-Format: `open INDEX`
+Format: `addInterviewRecord id/ID d/DATE nt/NOTES`
 
-* Opens the interview notes of the applicant at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* If the applicant has no interview notes yet, an empty note is shown.
-* Calling `open` while another applicant's notes are already open silently switches to the new applicant.
-
-Examples:
-* `open 1` opens the interview notes of the 1st applicant in the displayed list.
-* `find John` followed by `open 1` opens the interview notes of the 1st result in the `find` output.
-
-### Saving an applicant's interview notes : `close`
-
-Saves the provided text as the interview notes for the currently open applicant, then closes the interview session.
-
-Format: `close [i/NOTES]`
-
-* Must be used after an `open` command. Using `close` without a prior `open` will result in an error.
-* `i/NOTES` is the new interview notes content. Everything after `i/` is saved as the notes, including spaces and line breaks.
-* Interview notes may be up to **4000 characters** long.
-* Omitting `i/` (i.e. typing `close` with no prefix) clears the applicant's interview notes.
+* Adds an interview record with the specified `ID`, `DATE`, and `NOTES`.
+* The index is a string that is used to identify the specific interview record.
+* The `ID` **can be any string without spaces**.
+* If the command is used to add an interview record with an existing `ID`, the command will be cancelled.
 
 Examples:
-* `close i/Candidate showed strong problem-solving skills. Score: 4/5.` saves that text as the interview notes for the currently open applicant.
-* `close` clears the interview notes for the currently open applicant.
+* `addInterviewRecord I-001 d/2026-04-17 nt/Shows excellent communication skill` adds an interview record with id `I-001`, date `2026-04-17`, and remarks `Shows excellent communication skill`.
+* `addInterviewRecord I-002 d/2026-04-18 nt/Expert in Java` adds an interview record with id `I-002`, date `2026-04-18`, and remarks `Expert in Java`.
+
+### Deleting an interview record : `deleteInterviewRecord`
+
+Deletes an interview record in the address book.
+
+Format: `deleteInterviewRecord ID`
+
+* Deletes an interview record with the specified `ID`.
+* If there is person(s) linked to the interview that is deleted, automatically removes the interview from that person(s).
+* The `ID` is the exact id used in generating the interview record.
+* If the command is used to delete an interview record that doesn't exist, the command will be cancelled.
+
+Examples:
+* `deleteInterviewRecord I-001` deletes an interview record with id `I-001`.
+* `deleteInterviewRecord I-002` deletes an interview record with id `I-002`.
+
+### Linking an existing interview record : `linkInterviewRecord`
+
+Links an existing interview record to an existing person in the address book.
+
+Format: `linkInterviewRecord INDEX ID`
+
+* Links an interview record with the specified `ID` to a person with the specified `INDEX`.
+* The `INDEX` is the index number shown in the displayed person list and the `ID` is the exact id used in generating the interview record.
+* The `INDEX` **must be a positive integer** 1, 2, 3, …​ and the `ID` is the exact id used in generating the interview record.
+* If the command is used to link an interview record to a person which either of them that doesn't exist, the command will be cancelled.
+
+Examples:
+* `linkInterviewRecord 1 I-001` followed by `list` links an interview record with id `I-001` to the first person in the address book.
+* `linkInterviewRecord 2 I-002` followed by `find Alex` links an interview record with id `I-002` to the second person in the address book with name Alex.
+
+### Removing a linked interview record from a person : `removeInterviewRecord`
+
+Removes a linked interview record from the person in the address book.
+
+Format: `removeInterviewRecord INDEX ID`
+
+* Removes an interview record with the specified `ID` which is already linked to a person with the specified `INDEX`.
+* The `INDEX` is the index number shown in the displayed person list and the `ID` is the exact id used in generating the interview record.
+* The `INDEX` **must be a positive integer** 1, 2, 3, …​ and the `ID` is the exact id used in generating the interview record
+* If the command is used to remove an interview record from a person which either of them that doesn't exist, the command will be cancelled.
+
+Examples:
+* `removeInterviewRecord 1 I-001` followed by `list` removes an interview record with id `I-001` from the first person in the address book.
+* `removeInterviewRecord 2 I-002` followed by `find Alex` removes an interview record with id `I-002` from the second person in the address book with name Alex.
+
+### List all interview records : `listInterviews`
+
+Shows a list of all interview records in the address book.
+
+* The interview record list displays the interview record in the order that it was added.
+
+Format: `listInterviews`
 
 ### Clearing all entries : `clear`
 
