@@ -261,6 +261,8 @@ _Details coming soon ..._
 
 ## Command summary
 
+### General commands
+
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
@@ -275,3 +277,10 @@ Action | Format, Examples
 **removeInterviewRecord** | `removeInterviewRecord [INDEX] [ID]`<br> e.g.,`removeInterviewRecord 1 I-001`
 **listInterviews** | `listInterviews`
 **Help** | `help`
+
+### Interview commands
+
+Action | Format, Examples
+--------|------------------
+**Open** | `open INDEX`<br> e.g., `open 2`
+**Close** | `close [i/NOTES]`<br> e.g., `close i/Strong candidate. Score: 4/5.`
