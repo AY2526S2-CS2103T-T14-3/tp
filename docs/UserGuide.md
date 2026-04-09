@@ -151,20 +151,19 @@ Error Message | Reason
 **Invalid command format!** <br> **edit: Edits the details of the person identified by the index number used in the displayed person list. Existing values will be overwritten by the input values.** <br> **Parameters: INDEX (must be a positive integer) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...** <br> **Example: edit 1 p/91234567 e/johndoe@example.com** | This indicates there is an error in the format of the command.
 
 
-### Locating persons by name: `find`
+### Filter list by keyword(s): `find`
 
-Finds persons whose names or tags contain any of the given keywords.
+Finds persons whose names, tags or other details contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Applicant names and tags are searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* Applicant names, tags and contact details are searched.
 * Applicants matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return applicants with the name `Hans Gruber`, `Bo Yang`
 * Tags can also be used as search keywords.
-  e.g. `find A1234567B` will return the applicant tagged with `A1234567B`
+  e.g. `find A1234567B` will return applicants tagged with `A1234567B`
 
 Examples:
 * `find John` returns `john` and `John Doe`
