@@ -188,6 +188,17 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Find command
+
+The `find` command allows users to search for applicants by keyword. The sequence diagram below
+shows how the components interact with each other when the user issues the command `find Alex`.
+
+<img src="images/FindSequenceDiagram.png" width="574" />
+
+The `find` command does not involve `Storage` as it is a read-only operation — it only updates
+the filtered view of the applicant list in `Model`. The UI is automatically refreshed via
+JavaFX's `ObservableList` binding, without requiring an explicit callback from `Logic`.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
