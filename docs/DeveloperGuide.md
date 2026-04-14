@@ -10,6 +10,7 @@ title: Developer Guide
 ## **Acknowledgements**
 
 * [Addressbook Level 3](https://github.com/se-edu/addressbook-level3)
+* Portions of the code in this project is written with the assistance of Claude Code, or is inspired by code written by Claude Code
 
 --------------------------------------------------------------------------------------------------------------------
 
