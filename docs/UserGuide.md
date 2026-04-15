@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-HRdex is a desktop application designed for **CCA leaders in NUS** who need a simple and efficient way to manage CCA's interview records.
+HRdex is a desktop application designed for **NUS CCA leaders** who need a simple and efficient way to manage CCA's interview records. Other university CCA leaders are welcome to use it too.
 
 The application is optimized for users who prefer a **Command Line Interface (CLI)** while still benefiting from a graphical interface. HRdex allows CCA leaders to quickly add, search, view, and delete a person's information without navigating complicated menus.
 
@@ -55,7 +55,7 @@ The application is optimized for users who prefer a **Command Line Interface (CL
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -81,30 +81,24 @@ Adds a person record to HRdex.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
-* A person's `NAME` must only contain letters, spaces, hyphens, and apostrophes, and it must not be blank.
-* Any spaces surrounding a person's `NAME` is trimmed.
+* `NAME` must only contain letters, spaces, hyphens, and apostrophes, and must not be blank. Surrounding spaces are trimmed.
+* `PHONE_NUMBER` is the unique identifier — no two persons can share the same number.
 * A person can have any number of tags (including 0).
-* The `PHONE_NUMBER` is the unique id for a specific person, i.e. 2 or more persons who share a `PHONE_NUMBER` will lead to a command error.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Blk 30 Clementi Ave 3 p/1234567 t/year2`
 
-Expected output:
-* Command success:
-    * New person added: `NAME`; Phone: `PHONE_NUMBER`; Email: `EMAIL`; Address: `ADDRESS`; Tags: `TAG`…​
-      ![result for 'add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal'](images/expected-output-add-command.png)
+Command fail:
 
-* Command fail:
-
-Error Message | Reason
---------|------------------
-**This person already exists in the HRdex** | This indicates a person with the specified `PHONE_NUMBER` already exists.
-**Names should only contain letters, spaces, hyphens, and apostrophes, and it should not be blank.** | This indicates the format for `NAME` is incorrect.
-**Phone numbers should only contain numbers, and it should be at least 3 digits long** | This indicates the format for `PHONE_NUMBER` is incorrect.
-**Emails should be of the format local-part@domain and adhere to the following constraints:** <br> **1. The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.** <br> **2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.** <br> **The domain name must: <br> - end with a domain label at least 2 characters long** <br> **- have each domain label start and end with alphanumeric characters** <br> **- have each domain label consist of alphanumeric characters, separated only by hyphens, if any.** | This indicates the format for `EMAIL` is incorrect.
-**Multiple values specified for the following single-valued field(s): [x/]...** | This indicates there are multiple values of [x/]... in the use of the command. The command only takes in one of each [x/]... except for tags (t/).
-**Invalid command format!** <br> **add: Adds a person to the HRdex. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]...** <br> **Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney** | This indicates there is an error in the format of the command.
+Error | Reason
+------|-------
+`This person already exists in the HRdex` | `PHONE_NUMBER` is already in use — use a unique number
+`Names should only contain letters...` | `NAME` contains unsupported characters — use only letters, spaces, hyphens, or apostrophes
+`Phone numbers should only contain numbers...` | `PHONE_NUMBER` must be digits only, at least 3 digits long
+`Emails should be of the format local-part@domain...` | `EMAIL` does not meet format requirements. You may try checking that your email follows `user@example.com` with a valid domain
+`Multiple values specified for [x/]` | A single-value field was given more than once. You may try removing duplicate prefixes (only `t/` accepts multiple values)
+`Invalid command format!` | Parameters are missing or in the wrong order
 
 
 ### Deleting a person record: `delete`
@@ -113,45 +107,30 @@ Deletes a person record in HRdex.
 
 Format: `delete INDEX`
 
-* Deletes the person of the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The `INDEX` **must be a positive integer** 1, 2, 3, …​
 * Deleting a person with an interview record also deletes the interview record.
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in HRdex.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-Expected output:
-* Command success:
-    * Deleted Person: `NAME`; Phone: `PHONE_NUMBER`; Email: `EMAIL`; Address: `ADDRESS`; Tags: `TAG`…​
-      ![result for 'delete 2'](images/expected-output-delete-command.png)
+*Expected output:*
 
-* Command fail:
+![result for 'delete 2'](images/expected-output-delete-command.png)
 
-Error Message | Reason
---------|------------------
-**The person index provided is invalid** | This indicates the `INDEX` provided is invalid.
-**Invalid command format!** <br> **delete: Deletes the person identified by the index number used in the displayed person list.** <br> **Parameters: INDEX (must be a positive integer)** <br> **Example: delete 1** | This indicates there is an error in the format of the command.
+Command fail:
+
+Error | Reason
+------|-------
+`The person index provided is invalid` | `INDEX` is out of range
+`Invalid command format!` | `INDEX` missing or not a positive integer
+
 
 ### Listing all persons : `list`
 
 Shows a list of all persons in the HRdex.
 
 Format: `list`
-
-* Any parameters after `list` are ignored.
-
-Expected output:
-* Command success:
-    * Listed all persons:
-
-      `THE LIST OF ALL PERSONS`
-      ![result for 'list'](images/expected-output-list-command.png)
-
-* Command fail:
-
-There is no way for `list` command to fail.
 
 
 ### Editing a person : `edit`
@@ -160,33 +139,29 @@ Edits an existing person in the HRdex.
 
 Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+* `INDEX` **must be a positive integer** 1, 2, 3, …​
+* At least one optional field must be provided.
+* When editing tags, all existing tags are replaced. Use `t/` with no value to clear all tags.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person.
+*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person and clears all existing tags.
 
-Expected output:
-* Command success:
-    * Edited Person: `NAME`; Phone: `PHONE_NUMBER`; Email: `EMAIL`; Address: `ADDRESS`; Tags: `TAG`…​
-      ![result for 'edit 2 n/Alex Chai'](images/expected-output-edit-command.png)
+*Expected output:*
 
-* Command fail:
+![result for 'edit 2 n/Alex Chai'](images/expected-output-edit-command.png)
 
-Error Message | Reason
---------|------------------
-**The person index provided is invalid** | This indicates the `INDEX` provided is invalid.
-**At least one field to edit must be provided.** | This indicates there is no edit details provided.
-**Names should only contain letters, spaces, hyphens, and apostrophes, and it should not be blank.** | This indicates the format for `NAME` is incorrect.
-**Phone numbers should only contain numbers, and it should be at least 3 digits long** | This indicates the format for `PHONE_NUMBER` is incorrect.
-**Emails should be of the format local-part@domain and adhere to the following constraints:** <br> **1. The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.** <br> **2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.** <br> **The domain name must: <br> - end with a domain label at least 2 characters long** <br> **- have each domain label start and end with alphanumeric characters** <br> **- have each domain label consist of alphanumeric characters, separated only by hyphens, if any.** | This indicates the format for `EMAIL` is incorrect.
-**Multiple values specified for the following single-valued field(s): [x/]...** | This indicates there are multiple values of [x/]... in the use of the command. The command only takes in one of each [x/]... except for tags (t/).
-**Invalid command format!** <br> **edit: Edits the details of the person identified by the index number used in the displayed person list. Existing values will be overwritten by the input values.** <br> **Parameters: INDEX (must be a positive integer) [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...** <br> **Example: edit 1 p/91234567 e/johndoe@example.com** | This indicates there is an error in the format of the command.
+Command fail:
+
+Error | Reason
+------|-------
+`The person index provided is invalid` | `INDEX` is out of range
+`At least one field to edit must be provided.` | No fields were given — provide at least one of `n/`, `p/`, `e/`, `a/`, or `t/`
+`Names should only contain letters...` | `NAME` contains unsupported characters — use only letters, spaces, hyphens, or apostrophes
+`Phone numbers should only contain numbers...` | `PHONE_NUMBER` must be digits only, at least 3 digits long
+`Emails should be of the format local-part@domain...` | `EMAIL` does not meet format requirements. You may try checking that your email follows `user@example.com` with a valid domain
+`Multiple values specified for [x/]` | A single-value field was given more than once. You may try removing duplicate prefixes (only `t/` accepts multiple values)
+`Invalid command format!` | Parameters are missing or in the wrong order
 
 
 ### Locating persons: `find`
@@ -210,16 +185,11 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-Expected output:
-* Command success:
-    * `n` persons listed!
-      `THE LIST OF ALL PERSONS WITH KEYWORD [MORE_KEYWORDS]`
+Command fail:
 
-* Command fail:
-
-Error Message | Reason
---------|------------------
-**Invalid command format!** <br> **find: Finds all persons whose details contain any of the specified keywords (case-insensitive) and displays them as a list with index numbers.** <br> **Parameters: KEYWORD [MORE_KEYWORDS]...** <br> **Example: find alice bob charlie** | This indicates there is no `KEYWORD` provided after the `find` command.
+Error | Reason
+------|-------
+`Invalid command format!` | No keyword provided after `find`
 
 
 ### Editing an interview record : `edit-i`
@@ -228,35 +198,28 @@ Edits an interview record of a person on HRdex.
 
 Format: `edit-i INDEX`
 
-* Edits the interview record of the person of the specified `INDEX`.
-* Opens a popup window for the person at the specified `INDEX`.
-* The popup window allows the user to enter or modify the interview record content for that person.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
-* Each person, when `edit-i` is called for the first time, is linked to an empty interview record.
-* Changes are only saved when the user presses Enter in the popup editor. Closing the popup window without pressing Enter will discard any unsaved changes.
-* If the person already has an interview record, the existing content will be shown in the popup window and can be edited.
+* `INDEX` **must be a positive integer** 1, 2, 3, …​
+* Opens a popup editor for the person. Changes are only saved when Enter is pressed — closing the popup discards unsaved changes.
 
 Examples:
 * `list` followed by `edit-i 2` edits the interview record of the 2nd person in HRdex.
 * `find Betsy` followed by `edit-i 1` edits the interview record of the 1st person in the results of the `find` command.
 
-Expected output:
-* Command success:
-    * Opening interview editor for: `NAME` 
-       ![result for 'edit-i 1'-1](images/expected-output-edit-i-command-1.png)
+*Expected output:*
 
-    * The panel of editing interview record:
-  
-       ![result for 'edit-i 1'-2](images/expected-output-edit-i-command-2.png)
+![result for 'edit-i 1'-1](images/expected-output-edit-i-command-1.png)
 
-* Command fail:
+*Popup editor:*
 
-Error Message | Reason
---------|------------------
-**The person index provided is invalid** | This indicates the `INDEX` provided is invalid.
-**The person's index must be provided** | This indicates that the index needs to be provided
-**Invalid command format!** <br> **edit-i: Opens the interview notes editor for the person at the given index.** <br> **Parameters: INDEX (must be a positive integer)** <br> **Example: edit-i 1** | This indicates there is an error in the format of the command.
+![result for 'edit-i 1'-2](images/expected-output-edit-i-command-2.png)
+
+Command fail:
+
+Error | Reason
+------|-------
+`The person index provided is invalid` | `INDEX` is out of range
+`The person's index must be provided` | No `INDEX` was given
+`Invalid command format!` | Parameters missing or in wrong order
 
 
 ### Deleting an interview record : `delete-i`
@@ -265,49 +228,35 @@ Deletes an interview record of a person on HRdex.
 
 Format: `delete-i INDEX`
 
-* Deletes the interview record of the person of the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* `INDEX` **must be a positive integer** 1, 2, 3, …​
 
 Examples:
 * `list` followed by `delete-i 2` deletes the interview record of the 2nd person in HRdex.
 * `find Betsy` followed by `delete-i 1` deletes the interview record of the 1st person in the results of the `find` command.
 
-Expected output:
-* Command success:
-    * Deleted interview record for: James Hong
-      ![result for 'delete-i 1'](images/expected-output-delete-i-command.png)
+*Expected output:*
 
-* Command fail:
+![result for 'delete-i 1'](images/expected-output-delete-i-command.png)
 
-Error Message | Reason
---------|------------------
-**The person index provided is invalid** | This indicates the `INDEX` provided is invalid.
-**This person has no interview record.** | This indicates the person with the `INDEX` provided has no interview record linked to.
-**Invalid command format!** <br> **delete-i: Deletes the interview record of the person at the given index.** <br> **Parameters: INDEX (must be a positive integer)** <br> **Example: delete-i 1** | This indicates there is an error in the format of the command.
+Command fail:
+
+Error | Reason
+------|-------
+`The person index provided is invalid` | `INDEX` is out of range
+`This person has no interview record.` | No interview record is linked to this person
+`Invalid command format!` | Parameters missing or in wrong order
 
 
 ### List all interview records : `list-i`
 
 Shows a list of all interview records in HRdex.
 
-* The interview record list displays the interview record in the order that it was created.
-
 Format: `list-i`
 
-Any parameters after `list-i` are ignored.
+* The interview record list displays records in the order they were created.
+* Any parameters after `list-i` are ignored.
 
-Expected output:
-* Command success:
-    * Listed all interview records:
-
-      `THE LIST OF ALL INTERVIEW RECORDS`
-      ![result for 'list-i'](images/expected-output-list-i-command.png)
-
-
-* Command fail:
-
-There is no way for `list-i` command to fail.
+![result for 'list-i'](images/expected-output-list-i-command.png)
 
 
 ### Finding interview records by keyword : `find-i`
@@ -325,19 +274,13 @@ Examples:
 * `find-i java`
 * `find-i communication teamwork`
 
-Expected output:
+![result for 'find-i good'](images/expected-output-find-i-command.png)
 
-* Command success:
-    * `n` persons listed!
+Command fail:
 
-      `THE LIST OF MATCHING PERSONS`
-      ![result for 'find-i good'](images/expected-output-find-i-command.png)
-
-* Command fail:
-
-Error Message | Reason
---- | ---
-Invalid command format! | No keyword is provided after the command.
+Error | Reason
+------|-------
+`Invalid command format!` | No keyword provided after `find-i`
 
 
 ### Clearing all entries : `clear`
@@ -345,18 +288,6 @@ Invalid command format! | No keyword is provided after the command.
 Clears all entries in HRdex.
 
 Format: `clear`
-
-* Any parameters after `clear` are ignored.
-
-Expected output:
-* Command success:
-    * HRdex has been cleared!
-      ![result for 'clear'](images/expected-output-clear-command.png)
-
-
-* Command fail:
-
-There is no way for `clear` command to fail.
 
 
 ### Exiting the program : `exit`
